@@ -1,4 +1,4 @@
-from __future__ import print_function
+
 import os
 import logging
 from miasm.analysis.sandbox import Sandbox_Win_x86_32

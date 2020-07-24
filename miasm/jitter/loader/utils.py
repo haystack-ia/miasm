@@ -2,7 +2,7 @@ from builtins import int as int_types
 import logging
 
 from future.utils import viewitems, viewvalues
-from past.builtins import basestring
+from past.builtins import str
 
 log = logging.getLogger('loader_common')
 hnd = logging.StreamHandler()
@@ -12,8 +12,8 @@ log.setLevel(logging.INFO)
 
 
 def canon_libname_libfunc(libname, libfunc):
-    assert isinstance(libname, basestring)
-    assert isinstance(libfunc, basestring) or isinstance(libfunc, int_types)
+    assert isinstance(libname, str)
+    assert isinstance(libfunc, str) or isinstance(libfunc, int_types)
     dn = libname.split('.')[0]
     if isinstance(libfunc, int_types):
         return str(dn), libfunc
@@ -36,7 +36,7 @@ class libimp(object):
         self.fake_libs = set()
 
     def lib_get_add_base(self, name):
-        assert isinstance(name, basestring)
+        assert isinstance(name, str)
         name = name.lower().strip(' ')
         if not "." in name:
             log.warning('warning adding .dll to modulename')

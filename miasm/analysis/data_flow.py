@@ -1143,7 +1143,7 @@ class DiGraphLiveness(DiGraph):
         """
         infos = block.infos
         modified = False
-        for i in reversed(range(len(infos))):
+        for i in reversed(list(range(len(infos)))):
             new_vars = set(infos[i].gen.union(infos[i].var_out.difference(infos[i].kill)))
             if infos[i].var_in != new_vars:
                 modified = True
@@ -1467,7 +1467,7 @@ class DelDummyPhi(object):
                     ids_to_src[dst] = src
 
         modified = False
-        for block in ssa.graph.blocks.values():
+        for block in list(ssa.graph.blocks.values()):
             if not irblock_has_phi(block):
                 continue
             assignblk = block[0]
@@ -1578,7 +1578,7 @@ class UnionFind(object):
         self.__classes = new_classes
         self.node_to_class = node_to_class
         new_order = dict()
-        for node,index in self.order.items():
+        for node,index in list(self.order.items()):
             new_node = replace_expr_from_bottom(node, replace_dct)
             new_order[new_node] = index
         self.order = new_order
@@ -1840,10 +1840,10 @@ class State(object):
         @assignblock: AssignBlock instance
         """
 
-        out = dict(assignblock.items())
+        out = dict(list(assignblock.items()))
         new_out = dict()
         # Replace sub expression by their equivalence class repesentative
-        for dst, src in out.items():
+        for dst, src in list(out.items()):
             if src.is_op('Phi'):
                 # Don't replace in phi
                 new_src = src
@@ -1935,7 +1935,7 @@ class State(object):
                 continue
 
         new_assignblk = AssignBlock(new_out, assignblock.instr)
-        dsts = new_out.keys()
+        dsts = list(new_out.keys())
 
         # Remove interfering known classes
         to_del = set()
@@ -1948,7 +1948,7 @@ class State(object):
 
 
         # Update equivalence classes
-        for dst, src in new_out.items():
+        for dst, src in list(new_out.items()):
             # Delete equivalence class interfering with dst
             to_del = set()
             classes = self.equivalence_classes
@@ -2047,7 +2047,7 @@ class State(object):
             all_nodes.update(common)
 
         new_order = dict(
-            (node, index) for (node, index) in classes1.order.items()
+            (node, index) for (node, index) in list(classes1.order.items())
             if node in all_nodes
         )
 
@@ -2145,7 +2145,7 @@ class PropagateExpressions(object):
         modified = False
 
         for index, assignblock in enumerate(irblock):
-            if not assignblock.items():
+            if not list(assignblock.items()):
                 continue
             new_assignblk = state.eval_assignblock(assignblock)
             new_assignblocks.append(new_assignblk)
@@ -2164,7 +2164,7 @@ class PropagateExpressions(object):
         self.loc_db = ircfg.loc_db
         irblocks = ssa.ircfg.blocks
         states = {}
-        for loc_key, irblock in irblocks.items():
+        for loc_key, irblock in list(irblocks.items()):
             states[loc_key] = None
 
         todo = deque([head])

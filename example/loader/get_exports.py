@@ -15,4 +15,4 @@ cont = Container.from_stream(fdesc)
 exported_funcs = get_export_name_addr_list(cont.executable)
 
 for name_or_ordinal, address in exported_funcs:
-    print(name_or_ordinal, hex(address))
+    print((name_or_ordinal, hex(address)))

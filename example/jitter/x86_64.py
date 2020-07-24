@@ -45,11 +45,11 @@ def log_syscalls(jitter):
     if jitter.cpu.EAX == 1:
         # Write
         size_t = jitter.cpu.RDX
-        print("write(fd: {}, buf: {}, size_t: {})".format(
+        print(("write(fd: {}, buf: {}, size_t: {})".format(
             jitter.cpu.RDI,
             jitter.vm.get_mem(jitter.cpu.RSI, size_t),
             size_t
-        ))
+        )))
         # Return value is the size written
         jitter.cpu.EAX = size_t
     elif jitter.cpu.EAX == 0x3c:
@@ -59,9 +59,9 @@ def log_syscalls(jitter):
     else:
         # Most syscalls are not implemented, it may create issues
         if jitter.cpu.EAX in SYSCALL:
-            print("syscall {} - {} : Not Implemented".format(jitter.cpu.EAX, SYSCALL[jitter.cpu.EAX]))
+            print(("syscall {} - {} : Not Implemented".format(jitter.cpu.EAX, SYSCALL[jitter.cpu.EAX])))
         else:
-            print("Unknown syscall {} : NotImplemented".format(jitter.cpu.EAX))
+            print(("Unknown syscall {} : NotImplemented".format(jitter.cpu.EAX)))
     jitter.cpu.set_exception(0)
     jitter.cpu.EAX = 0
     return True

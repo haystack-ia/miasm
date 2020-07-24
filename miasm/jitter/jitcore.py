@@ -1,4 +1,4 @@
-from __future__ import print_function
+
 #
 # Copyright (C) 2011 EADS France, Fabrice Desclaux <fabrice.desclaux@eads.net>
 #
@@ -251,7 +251,7 @@ class JitCore(object):
             del(self.loc_key_to_block[block.loc_key])
 
         # Re generate blocks intervals
-        self.blocks_mem_interval = self.blocks_to_memrange(self.loc_key_to_block.values())
+        self.blocks_mem_interval = self.blocks_to_memrange(list(self.loc_key_to_block.values()))
 
         return modified_blocks
 

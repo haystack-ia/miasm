@@ -1,4 +1,4 @@
-from __future__ import print_function
+
 from builtins import range
 
 import os
@@ -6,7 +6,7 @@ import logging
 from argparse import ArgumentParser
 
 from future.utils import viewitems, viewvalues
-from past.builtins import basestring
+from past.builtins import str
 
 from miasm.analysis.machine import Machine
 from miasm.jitter.csts import PAGE_READ, PAGE_WRITE
@@ -51,7 +51,7 @@ class Sandbox(object):
         """
 
         # Initialize
-        assert isinstance(fname, basestring)
+        assert isinstance(fname, str)
         self.fname = fname
         self.options = options
         if custom_methods is None:

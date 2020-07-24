@@ -629,7 +629,7 @@ def vm_load_pe_and_dependencies(vm, fname, name2module, runtime_lib,
 
     known_export_addresses = {}
     to_resolve = {}
-    for name, pe_obj in name2module.items():
+    for name, pe_obj in list(name2module.items()):
         print(name)
         if pe_obj is None:
             continue
@@ -651,7 +651,7 @@ def vm_load_pe_and_dependencies(vm, fname, name2module, runtime_lib,
     while modified:
         modified = False
         out = {}
-        for target, dependency in to_resolve.items():
+        for target, dependency in list(to_resolve.items()):
             dllname, funcname = dependency
             if dependency in known_export_addresses:
                 known_export_addresses[target] = known_export_addresses[dependency]
@@ -661,7 +661,7 @@ def vm_load_pe_and_dependencies(vm, fname, name2module, runtime_lib,
                 raise RuntimeError('Cannot resolve redirection')
         to_resolve = out
 
-    for dllname, pe_obj in name2module.items():
+    for dllname, pe_obj in list(name2module.items()):
         if pe_obj is None:
             continue
         ad = pe_obj.NThdr.ImageBase
@@ -672,14 +672,14 @@ def vm_load_pe_and_dependencies(vm, fname, name2module, runtime_lib,
         runtime_lib.lib_imp2dstad[ad] = {}
         runtime_lib.libbase_ad += 0x1000
 
-    for (dllname, imp_ord_or_name), addr in known_export_addresses.items():
+    for (dllname, imp_ord_or_name), addr in list(known_export_addresses.items()):
         runtime_lib.add_function(dllname, imp_ord_or_name, addr)
         libad = runtime_lib.name2off[dllname]
         runtime_lib.lib_imp2ad[libad][imp_ord_or_name] = addr
 
     assert not to_resolve
 
-    for dllname, pe_obj in name2module.items():
+    for dllname, pe_obj in list(name2module.items()):
         if pe_obj is None:
             continue
         preload_pe(vm, pe_obj, runtime_lib, patch_vm_imp=True)

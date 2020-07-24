@@ -65,7 +65,7 @@ class TestWinAPI(unittest.TestCase):
         jit.push_uint32_t(0) # ret_ad
         winapi.msvcrt_swprintf(jit)
         ret = get_win_str_w(jit, buf)
-        self.assertEqual(ret, u"'coucou' 1111")
+        self.assertEqual(ret, "'coucou' 1111")
 
 
     def test_msvcrt_realloc(self):
@@ -253,7 +253,7 @@ class TestWinAPI(unittest.TestCase):
                          winapi.ACCESS_DICT[0x1])
         # Splits area [0--1000] [1000 -- 3000] [3000 -- 4000]
         call_vprotect(jit, alloc_addr+0x1000, 0x2000, 0x40)
-        print(jit.vm)
+        print((jit.vm))
         for (addr, size, access) in [
                 (alloc_addr, 0x1000, 0x1),
                 (alloc_addr + 0x1000, 0x2000, 0x40),
